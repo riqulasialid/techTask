@@ -22,7 +22,7 @@
     bottom: 4px;
     left: 4px;
     width: calc(50% - 4px);
-    background-color: white;
+    background-color: black;
     border-radius: 999px;
     transition: transform 0.3s ease;
     z-index: 0;
@@ -56,7 +56,8 @@
   font-size: 12px;
 
   &.active {
-    color: black;
+    color: white;
+    background-color: black;
   }
 
   &:not(.active) {
