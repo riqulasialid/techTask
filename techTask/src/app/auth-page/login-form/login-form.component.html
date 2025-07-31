@@ -1,0 +1,30 @@
+<div id="auth-form">
+  <div id="header">
+    <div class="title">Random site singIn</div>
+    <div class="subtitle">
+      techlical task with authoriztion and registration
+    </div>
+  </div>
+
+  <app-capsule-toggle
+    [selectedIndex]="selectedIndex"
+    (selectedIndexChange)="onToggleChanged($event)"
+  ></app-capsule-toggle>
+
+  <div id="form-body">
+    <div class="input-block" *ngIf="selectedIndex === 0; else registrationForm">
+      <div class="input-group">
+        <div>Username</div>
+        <input type="text" placeholder="Enter your username" />
+      </div>
+
+      <div class="input-group">
+        <div>Password</div>
+        <input type="text" type="password" placeholder="Enter your password" />
+      </div>
+    </div>
+    <button>Sign In</button>
+  </div>
+</div>
+
+<ng-template #registrationForm> register </ng-template>

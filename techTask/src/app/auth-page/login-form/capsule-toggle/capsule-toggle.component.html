@@ -1,0 +1,14 @@
+<div class="toggle-wrapper">
+  <div
+    class="toggle"
+    [class.active-left]="selectedIndex === 0"
+    [class.active-right]="selectedIndex === 1"
+  >
+    <button (click)="select(0)" [class.active]="selectedIndex === 0">
+      Login
+    </button>
+    <button (click)="select(1)" [class.active]="selectedIndex === 1">
+      Register
+    </button>
+  </div>
+</div>
