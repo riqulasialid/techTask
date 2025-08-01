@@ -4,6 +4,7 @@ import { CapsuleToggleComponent } from './capsule-toggle/capsule-toggle.componen
 import { NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NotificationService } from '../../notification/notification-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -23,10 +24,12 @@ export class LoginFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    localStorage.setItem('isAuthenticated', 'false');
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -91,6 +94,12 @@ export class LoginFormComponent implements OnInit {
 
     localStorage.setItem('isAuthenticated', 'true');
     this.notificationService.show('Login successful', 'success');
+
+    const isAuth = localStorage.getItem('isAuthenticated');
+    if (isAuth === 'true') {
+      // currentUser;
+      this.router.navigate(['/hello-page']);
+    }
   }
 
   register() {
