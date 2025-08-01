@@ -85,12 +85,12 @@ export class LoginFormComponent implements OnInit {
     }
 
     if (user.password !== encryptedPassword) {
-      alert('Incorrect password');
+      this.notificationService.show('Incorrect password', 'error');
       return;
     }
 
     localStorage.setItem('isAuthenticated', 'true');
-    alert('Login successful');
+    this.notificationService.show('Login successful', 'success');
   }
 
   register() {
@@ -109,14 +109,14 @@ export class LoginFormComponent implements OnInit {
     } = this.registrationForm.value;
 
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      this.notificationService.show('Passwords do not match', 'error');
       return;
     }
 
     const users = JSON.parse(localStorage.getItem('users') || '[]');
 
     if (users.find((u: any) => u.username === username)) {
-      alert('User already exists');
+      this.notificationService.show('User already exists', 'error');
       return;
     }
 
@@ -129,7 +129,7 @@ export class LoginFormComponent implements OnInit {
     });
 
     localStorage.setItem('users', JSON.stringify(users));
-    alert('Registration successful');
+    this.notificationService.show('Registration successful', 'success');
     this.selectedIndex = 0;
   }
 }
