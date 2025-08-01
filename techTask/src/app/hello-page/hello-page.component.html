@@ -1,5 +1,16 @@
 <div id="page-layout">
-  <header>Hello, {{ "firstName" }}</header>
-  <button (click)="onLogout()">Log Out</button>
-  <button (click)="onDeleteAccount()">Delete login</button>
+  <div class="flex-block">
+    <header>
+      <div class="blue-text">Welcome,</div>
+      <div>{{ currentUser.firstName }}</div>
+    </header>
+    <div class="subtitle">
+      Thanks for stopping by!<br />I tried to show my frontend skills here. I'd
+      love to hear your opinion.
+    </div>
+  </div>
+  <div class="buttons">
+    <button (click)="onLogout()" class="logout">Log Out</button>
+    <button (click)="onDeleteAccount()" class="delete">Delete account</button>
+  </div>
 </div>
