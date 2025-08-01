@@ -5,6 +5,7 @@ import { NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NotificationService } from '../../notification/notification-service.service';
 import { Router } from '@angular/router';
+import { StorageService } from '../../service/storage.service';
 
 @Component({
   selector: 'app-login-form',
@@ -15,20 +16,24 @@ import { Router } from '@angular/router';
 })
 export class LoginFormComponent implements OnInit {
   selectedIndex = 0;
-
   loginForm!: FormGroup;
   registrationForm!: FormGroup;
-
   isLoginValid = false;
   isRegistrationValid = false;
 
   constructor(
     private fb: FormBuilder,
     private notificationService: NotificationService,
-    private router: Router
+    private router: Router,
+    private storageService: StorageService
   ) {}
 
   ngOnInit(): void {
+    this.initForms();
+    this.setupFormListeners();
+  }
+
+  private initForms(): void {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -42,7 +47,9 @@ export class LoginFormComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
     });
+  }
 
+  private setupFormListeners(): void {
     this.loginForm.statusChanges.subscribe(() => {
       this.isLoginValid = this.loginForm.valid;
     });
@@ -55,21 +62,17 @@ export class LoginFormComponent implements OnInit {
     });
   }
 
-  onToggleChanged(index: number) {
+  onToggleChanged(index: number): void {
     this.selectedIndex = index;
     this.loginForm.reset();
     this.registrationForm.reset();
   }
 
-  onSubmit() {
-    if (this.selectedIndex === 0) {
-      this.login();
-    } else {
-      this.register();
-    }
+  onSubmit(): void {
+    this.selectedIndex === 0 ? this.login() : this.register();
   }
 
-  login() {
+  private login(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -77,8 +80,7 @@ export class LoginFormComponent implements OnInit {
 
     const { username, password } = this.loginForm.value;
     const encryptedPassword = btoa(password);
-
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const users = JSON.parse(this.storageService.getItem('users') || '[]');
     const user = users.find((u: any) => u.username === username);
 
     if (!user) {
@@ -91,17 +93,13 @@ export class LoginFormComponent implements OnInit {
       return;
     }
 
-    localStorage.setItem('isAuthenticated', 'true');
+    this.storageService.setItem('isAuthenticated', 'true');
+    this.storageService.setItem('currentUser', JSON.stringify(user));
     this.notificationService.show('Login successful', 'success');
-
-    const isAuth = localStorage.getItem('isAuthenticated');
-    if (isAuth === 'true') {
-      // currentUser;
-      this.router.navigate(['/hello-page']);
-    }
+    this.router.navigate(['/hello-page']);
   }
 
-  register() {
+  private register(): void {
     if (this.registrationForm.invalid) {
       this.registrationForm.markAllAsTouched();
       return;
@@ -121,22 +119,23 @@ export class LoginFormComponent implements OnInit {
       return;
     }
 
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const users = JSON.parse(this.storageService.getItem('users') || '[]');
 
-    if (users.find((u: any) => u.username === username)) {
+    if (users.some((u: any) => u.username === username)) {
       this.notificationService.show('User already exists', 'error');
       return;
     }
 
-    users.push({
+    const newUser = {
       username,
       email,
       firstName,
       secondName,
       password: btoa(password),
-    });
+    };
 
-    localStorage.setItem('users', JSON.stringify(users));
+    users.push(newUser);
+    this.storageService.setItem('users', JSON.stringify(users));
     this.notificationService.show('Registration successful', 'success');
     this.selectedIndex = 0;
   }

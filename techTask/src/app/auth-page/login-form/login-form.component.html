@@ -12,7 +12,6 @@
   ></app-capsule-toggle>
 
   <div id="form-body">
-    <!-- LOGIN FORM -->
     <form
       [formGroup]="loginForm"
       *ngIf="selectedIndex === 0"
@@ -57,7 +56,6 @@
       <button type="submit" [disabled]="!isLoginValid">Sign In</button>
     </form>
 
-    <!-- REGISTRATION FORM -->
     <form
       [formGroup]="registrationForm"
       *ngIf="selectedIndex === 1"
