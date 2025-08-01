@@ -25,4 +25,24 @@ export class HelloPageComponent implements OnInit {
     this.storageService.removeItem('currentUser');
     this.router.navigate(['/auth']);
   }
+
+  onDeleteAccount() {
+    const currentUser = this.storageService.getItem('currentUser');
+    const users = this.storageService.getItem('users');
+
+    if (currentUser && users) {
+      const parsedUser = JSON.parse(currentUser);
+      const parsedUsers = JSON.parse(users);
+
+      const updatedUsers = parsedUsers.filter(
+        (user: any) => user.username !== parsedUser.username
+      );
+
+      this.storageService.setItem('users', JSON.stringify(updatedUsers));
+    }
+
+    this.storageService.setItem('isAuthenticated', 'false');
+    this.storageService.removeItem('currentUser');
+    this.router.navigate(['/auth']);
+  }
 }
