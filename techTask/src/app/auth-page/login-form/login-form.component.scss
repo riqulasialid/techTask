@@ -51,6 +51,7 @@ input {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  height: 80px;
 }
 
 button {
@@ -61,11 +62,22 @@ button {
   border: none;
   border-radius: 8px;
 
+  margin-top: 10px;
+
   font-size: 12px;
+
+  &:disabled {
+    background-color: #717182;
+  }
 }
 
 #form-body {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.error {
+  color: red;
+  font-size: 10px;
 }

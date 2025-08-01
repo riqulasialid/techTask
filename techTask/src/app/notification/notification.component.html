@@ -1,0 +1,9 @@
+<div class="notification-wrapper">
+  <div
+    *ngFor="let notification of notifications"
+    class="notification"
+    [ngClass]="notification.type"
+  >
+    {{ notification.message }}
+  </div>
+</div>

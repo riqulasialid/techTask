@@ -1,8 +1,8 @@
 <div id="auth-form">
   <div id="header">
-    <div class="title">Random site singIn</div>
+    <div class="title">Random site SignIn</div>
     <div class="subtitle">
-      techlical task with authoriztion and registration
+      technical task with authorization and registration
     </div>
   </div>
 
@@ -12,19 +12,167 @@
   ></app-capsule-toggle>
 
   <div id="form-body">
-    <div class="input-block" *ngIf="selectedIndex === 0; else registrationForm">
+    <!-- LOGIN FORM -->
+    <form
+      [formGroup]="loginForm"
+      *ngIf="selectedIndex === 0"
+      (ngSubmit)="onSubmit()"
+    >
       <div class="input-group">
         <div>Username</div>
-        <input type="text" placeholder="Enter your username" />
+        <input
+          type="text"
+          formControlName="username"
+          placeholder="Enter your username"
+        />
+        <div
+          class="error"
+          *ngIf="
+            loginForm.get('username')?.invalid &&
+            loginForm.get('username')?.touched
+          "
+        >
+          Username is required
+        </div>
       </div>
 
       <div class="input-group">
         <div>Password</div>
-        <input type="text" type="password" placeholder="Enter your password" />
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+        />
+        <div
+          class="error"
+          *ngIf="
+            loginForm.get('password')?.invalid &&
+            loginForm.get('password')?.touched
+          "
+        >
+          Password is required (min 6 chars)
+        </div>
       </div>
-    </div>
-    <button>Sign In</button>
+
+      <button type="submit" [disabled]="!isLoginValid">Sign In</button>
+    </form>
+
+    <!-- REGISTRATION FORM -->
+    <form
+      [formGroup]="registrationForm"
+      *ngIf="selectedIndex === 1"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="input-group">
+        <div>Username</div>
+        <input
+          type="text"
+          formControlName="username"
+          placeholder="Choose a username"
+        />
+        <div
+          class="error"
+          *ngIf="
+            registrationForm.get('username')?.invalid &&
+            registrationForm.get('username')?.touched
+          "
+        >
+          Username is required
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div>Email</div>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+        />
+        <div
+          class="error"
+          *ngIf="
+            registrationForm.get('email')?.invalid &&
+            registrationForm.get('email')?.touched
+          "
+        >
+          Valid email is required
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div>First name</div>
+        <input
+          type="text"
+          formControlName="firstName"
+          placeholder="Enter your first name"
+        />
+        <div
+          class="error"
+          *ngIf="
+            registrationForm.get('firstName')?.invalid &&
+            registrationForm.get('firstName')?.touched
+          "
+        >
+          Firstname is required
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div>Second Name</div>
+        <input
+          type="text"
+          formControlName="secondName"
+          placeholder="Enter your second name"
+        />
+        <div
+          class="error"
+          *ngIf="
+            registrationForm.get('secondName')?.invalid &&
+            registrationForm.get('secondName')?.touched
+          "
+        >
+          SecondName is required
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div>Password</div>
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+        />
+        <div
+          class="error"
+          *ngIf="
+            registrationForm.get('password')?.invalid &&
+            registrationForm.get('password')?.touched
+          "
+        >
+          Password is required (min 6 chars)
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div>Confirm password</div>
+        <input
+          type="password"
+          formControlName="confirmPassword"
+          placeholder="Confirm your password"
+        />
+        <div
+          class="error"
+          *ngIf="
+            registrationForm.get('confirmPassword')?.touched &&
+            registrationForm.value.password !==
+              registrationForm.value.confirmPassword
+          "
+        >
+          Passwords do not match
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="!isRegistrationValid">Register</button>
+    </form>
   </div>
 </div>
-
-<ng-template #registrationForm> register </ng-template>
