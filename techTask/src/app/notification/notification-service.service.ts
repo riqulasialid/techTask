@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-export type NotificationType = 'success' | 'warning' | 'error';
+export type NotificationType = 'success' | 'error';
 
 export interface NotificationData {
   id: number;

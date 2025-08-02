@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { StorageService } from '../service/storage.service';
+import { StorageService } from '../../service/storage.service';
+import { NotificationService } from '../../notification/notification-service.service';
 
 @Component({
   selector: 'app-hello-page',
@@ -12,12 +13,15 @@ import { StorageService } from '../service/storage.service';
 export class HelloPageComponent implements OnInit {
   currentUser: any = [];
 
-  constructor(private router: Router, private storageService: StorageService) {}
+  constructor(
+    private router: Router,
+    private storageService: StorageService,
+    private nofitication: NotificationService
+  ) {}
 
   ngOnInit(): void {
     const userData = this.storageService.getItem('currentUser');
     this.currentUser = userData ? JSON.parse(userData) : [];
-    console.log('current: ', this.currentUser);
   }
 
   onLogout(): void {
@@ -43,6 +47,7 @@ export class HelloPageComponent implements OnInit {
 
     this.storageService.setItem('isAuthenticated', 'false');
     this.storageService.removeItem('currentUser');
+    this.nofitication.show('Account deleted', 'success');
     this.router.navigate(['/auth']);
   }
 }

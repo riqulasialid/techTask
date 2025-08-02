@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { Router } from '@angular/router';
-import { StorageService } from '../service/storage.service';
+import { StorageService } from '../../service/storage.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

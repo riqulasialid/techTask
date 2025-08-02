@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CapsuleToggleComponent } from './capsule-toggle/capsule-toggle.component';
 import { NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NotificationService } from '../../notification/notification-service.service';
+import { NotificationService } from '../../../notification/notification-service.service';
 import { Router } from '@angular/router';
-import { StorageService } from '../../service/storage.service';
+import { StorageService } from '../../../service/storage.service';
 
 @Component({
   selector: 'app-login-form',
